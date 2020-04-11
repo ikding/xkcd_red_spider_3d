@@ -1,4 +1,5 @@
 """Utility function for making red spider on a box."""
+import os
 from typing import Dict, Tuple
 
 import numpy as np
@@ -6,21 +7,30 @@ import pyvista as pv
 from pyvista import examples
 
 
-def get_spider_box_unit_cell() -> Tuple[pv.PolyData, pv.PolyData]:
-    """[summary]
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "data")
 
-    [extended_summary]
 
-    Returns:
-        Tuple[pv.PolyData, pv.PolyData]: [description]
-    """
-    default_spider = examples.download_spider()
+def get_unit_cell_spider() -> pv.PolyData:
+    # default_spider = examples.download_spider()
+    default_spider = pv.read(os.path.join(DATA_DIR, "spider.ply"))
+    default_spider.points /= 3
+    default_spider.translate([-1, -1, 0.8])
+    default_spider.rotate_z(-110)
+    return default_spider
+
+
+def get_unit_cell_box() -> pv.PolyData:
     default_box = pv.Box()
-    default_box.points *= 3
-    default_spider.translate([-3, -3, 2.5])
-    default_spider.rotate_z(-20)
+    return default_box
 
-    return (default_spider, default_box)
+
+def get_buildings() -> pv.PolyData:
+    default_buildings = pv.read(
+        os.path.join(DATA_DIR, "buildings-and-skyscrapers", "source", "buildings.obj")
+    )
+    default_buildings.rotate_x(90)
+    default_buildings.translate([-4, -4, 0])
+    return default_buildings
 
 
 def scale_rotate_spider_box_unit_cell(

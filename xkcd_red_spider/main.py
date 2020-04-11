@@ -14,10 +14,14 @@ def main():
 
     [extended_summary]
     """
-    spider, box = utils.get_spider_box_unit_cell()
+    spider = utils.get_unit_cell_spider()
+    box = utils.get_unit_cell_box()
+    buildings = utils.get_buildings()
+    buildings.translate([0, 0, -5])
     plotter = pv.Plotter()
     plotter.add_mesh(spider, 'r')
     plotter.add_mesh(box, color="tan", show_edges=True)
+    plotter.add_mesh(buildings, color="white")
     plotter.show()
 
 
