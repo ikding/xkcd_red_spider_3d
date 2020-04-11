@@ -1,6 +1,6 @@
 """Utility function for making red spider on a box."""
 import os
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 
 import numpy as np
 import pyvista as pv
@@ -33,11 +33,12 @@ def get_buildings() -> pv.PolyData:
     return default_buildings
 
 
-def scale_rotate_spider_box_unit_cell(
+def process_spider_box_unit_cell(
     spider: pv.PolyData,
     box: pv.PolyData,
     scale: float = 1.0,
     rotation: List[Tuple[str, float]] = None,
+    translation: List[Union[int, float]] = None,
 ) -> Tuple[pv.PolyData, pv.PolyData]:
     """[summary]
 
@@ -48,6 +49,7 @@ def scale_rotate_spider_box_unit_cell(
         box (pv.PolyData): [description]
         scale (float, optional): [description]. Defaults to 1.0.
         rotation (List[Tuple[str, float]], optional): [description]. Defaults to None.
+        translation (List[Union[int, float]], optional): [description]. Defaults to None.
 
     Returns:
         Tuple[pv.PolyData, pv.PolyData]: [description]
@@ -63,5 +65,9 @@ def scale_rotate_spider_box_unit_cell(
                 spider.rotate_y(step[1])
             if step[0] == "z":
                 spider.rotate_z(step[1])
+
+    if isinstance(translation, list):
+        spider.translate(translation)
+        box.translate(translation)
 
     return (spider, box)
