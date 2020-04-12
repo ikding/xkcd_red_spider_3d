@@ -11,16 +11,16 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "
 
 
 def get_unit_cell_spider() -> pv.PolyData:
-    # default_spider = examples.download_spider()
     default_spider = pv.read(os.path.join(DATA_DIR, "spider.ply"))
-    default_spider.points /= 3
-    default_spider.translate([-1, -1, 0.8])
+    default_spider.points /= 6
+    default_spider.translate([-0.5, -0.5, 0.4])
     default_spider.rotate_z(-110)
     return default_spider
 
 
 def get_unit_cell_box() -> pv.PolyData:
     default_box = pv.Box()
+    default_box.points /= 2
     return default_box
 
 

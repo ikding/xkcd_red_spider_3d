@@ -55,7 +55,7 @@ def main(color_spider="red", color_box="tan", color_buildings="white"):
     spider_army[(6, -1)] = utils.process_spider_box_unit_cell(
         spider=utils.get_unit_cell_spider(),
         box=utils.get_unit_cell_box(),
-        rotation=[("z", -90)],
+        rotation=[("z", 90)],
         translation=[6, -1, 0]
     )
 
@@ -76,7 +76,7 @@ def main(color_spider="red", color_box="tan", color_buildings="white"):
         spider=utils.get_unit_cell_spider(),
         box=utils.get_unit_cell_box(),
         rotation=[("z", -90)],
-        translation=[-2, -2, 0],
+        translation=[-2, 2, 0],
     )
 
     spider_army[(-4, 2)] = utils.process_spider_box_unit_cell(
@@ -93,29 +93,29 @@ def main(color_spider="red", color_box="tan", color_buildings="white"):
         translation=[-6, -1, 0],
     )
 
-    spider_army[(-7, 2)] = utils.process_spider_box_unit_cell(
+    spider_army[(-8, 2)] = utils.process_spider_box_unit_cell(
         spider=utils.get_unit_cell_spider(),
         box=utils.get_unit_cell_box(),
         rotation=[("x", -90)],
-        translation=[-7, 2, 0],
+        translation=[-8, 2, 0],
     )
 
-    spider_army[(-7, -2)] = utils.process_spider_box_unit_cell(
+    spider_army[(-8, -2)] = utils.process_spider_box_unit_cell(
         spider=utils.get_unit_cell_spider(),
         box=utils.get_unit_cell_box(),
         rotation=[("y", 90)],
-        translation=[-7, -2, 0],
+        translation=[-8, -2, 0],
     )
 
-    spider_army[(-9, -3)] = utils.process_spider_box_unit_cell(
+    spider_army[(-10, -3)] = utils.process_spider_box_unit_cell(
         spider=utils.get_unit_cell_spider(),
         box=utils.get_unit_cell_box(),
-        translation=[-9, -3, 0],
+        translation=[-10, -3, 0],
     )
 
     buildings = utils.get_buildings()
-    buildings.points *= 2
-    buildings.translate([0, 0, -10])
+    buildings.points *= 1
+    buildings.translate([0, 0, -7])
 
     for unit in spider_army.values():
         plotter.add_mesh(unit[0], color=color_spider)
