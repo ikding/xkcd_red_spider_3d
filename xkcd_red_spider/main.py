@@ -16,7 +16,7 @@ XKCD_SPIDER_ARMY_COORD = {
     (0, 3): [("z", -90), ("y", 180)],
     (-1, -2): [("z", 0), ("y", 180)],
     (3, -2): [("z", 0), ("y", 180)],
-    (4, 0): [("z", 180), ("y", -90)],
+    (5, 2): [("z", 180), ("y", -90)],
     (6, -1): [("z", 90)],
     (8, 1): None,
     (10, -1): [("y", -90)],
@@ -24,9 +24,17 @@ XKCD_SPIDER_ARMY_COORD = {
     (-4, 2): [("y", 90)],
     (-6, -1): [("y", 180)],
     (-8, 2): [("x", -90)],
-    (-7, -2): [("y", 90)],
+    (-8, -2): [("y", 90)],
     (-10, -3): None,
 }
+
+
+# A nice default camera position that I found manually
+DEFAULT_CAMERA_POSITION = [
+    (-0.699160952571046, -26.735313130320243, -7.280849223142814),
+    (-0.47106783911188665, -0.0017492199145906495, -4.609376247910827),
+    (-0.00021399730406157947, -0.09943250058449254, 0.9950442864680289),
+]
 
 
 def get_xkcd_spider_army(
@@ -76,7 +84,7 @@ def get_xkcd_spider_army(
     return spider_army
 
 
-def main(color_spider="red", color_box="tan", color_buildings="white") -> pv.Plotter:
+def main(color_spider="red", color_box="tan", color_buildings="lightgray") -> pv.Plotter:
     """[summary]
 
     [extended_summary]
@@ -84,13 +92,12 @@ def main(color_spider="red", color_box="tan", color_buildings="white") -> pv.Plo
     Args:
         color_spider (str, optional): [description]. Defaults to "red".
         color_box (str, optional): [description]. Defaults to "tan".
-        color_buildings (str, optional): [description]. Defaults to "white".
+        color_buildings (str, optional): [description]. Defaults to "lightgray".
 
     Returns:
         pv.Plotter: [description]
     """
     plotter = pv.Plotter()
-
     spider_army = get_xkcd_spider_army()
     buildings = utils.get_buildings()
     buildings.points *= 1
@@ -105,5 +112,8 @@ def main(color_spider="red", color_box="tan", color_buildings="white") -> pv.Plo
 
 
 if __name__ == "__main__":
+    pv.set_plot_theme("document")
     p = main()
+    p.camera_position = DEFAULT_CAMERA_POSITION
     p.show()
+    print(p.camera_position)  # print the final camera position to the stdout
