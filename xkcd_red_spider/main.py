@@ -3,12 +3,16 @@
 To run::
     python xkcd_red_spider/main.py
 """
+import os
 from typing import Dict, List, Tuple
 
 import pyvista as pv
 from pyvista import examples
 
 import xkcd_red_spider.utils as utils
+
+
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "data")
 
 
 # Hand-crafted spider army coords that mimic the xkcd comic: Red Spiders Cometh
@@ -112,5 +116,8 @@ if __name__ == "__main__":
     pv.set_plot_theme("document")
     p = main()
     p.camera_position = DEFAULT_CAMERA_POSITION
+    vtkjs_file_path = os.path.join(DATA_DIR, "red_spiders_cometh")
+    if not os.path.isfile(vtkjs_file_path):
+        p.export_vtkjs(vtkjs_file_path)
     p.show()
     print(p.camera_position)  # print the final camera position to the stdout
