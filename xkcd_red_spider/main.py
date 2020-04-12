@@ -11,6 +11,8 @@ from pyvista import examples
 import xkcd_red_spider.utils as utils
 
 
+# Hand-crafted spider army coords that mimic the xkcd comic: Red Spiders Cometh
+# https://xkcd.com/126/
 XKCD_SPIDER_ARMY_COORD = {
     (1, 0): None,
     (0, 3): [("z", -90), ("y", 180)],
@@ -37,17 +39,17 @@ def get_xkcd_spider_army(
     spider_army_coord: Dict[Tuple[int, int], List[Tuple[str, int]]] = XKCD_SPIDER_ARMY_COORD,
     extra_spider: bool = True,
 ) -> List[Tuple[pv.PolyData, pv.PolyData]]:
-    """[summary]
-
-    [extended_summary]
+    """Generate the xkcd spider army through the army coordinates.
 
     Args:
-        spider_army_coord (Dict[Tuple[int, int], List[Tuple[str, int]]], optional): [description].
-        Defaults to XKCD_SPIDER_ARMY_COORD.
-        extra_spider (bool, optional): [description]. Defaults to True.
+        spider_army_coord (Dict[Tuple[int, int], List[Tuple[str, int]]], optional): Coordiates and
+            rotation steps of the red spider army. Check XKCD_SPIDER_ARMY_COORD for the example
+            setting. Defaults to XKCD_SPIDER_ARMY_COORD.
+        extra_spider (bool, optional): whether or not to add extra spiders on two boxes, to improve
+            fidelity with the original comic. Defaults to True.
 
     Returns:
-        List[Tuple[pv.PolyData, pv.PolyData]]: [description]
+        List[Tuple[pv.PolyData, pv.PolyData]]: list of (spider, box) ``pv.PolyData`` tuples.
     """
     spider_army = []
     for spider_unit_coord, spider_unit_rotatation in spider_army_coord.items():
@@ -81,17 +83,16 @@ def get_xkcd_spider_army(
 
 
 def main(color_spider="red", color_box="tan", color_buildings="lightgray") -> pv.Plotter:
-    """[summary]
-
-    [extended_summary]
+    """Main function for rendering the 3D scene for
+    `red spider cometh xkcd comic <https://xkcd.com/126/>`_.
 
     Args:
-        color_spider (str, optional): [description]. Defaults to "red".
-        color_box (str, optional): [description]. Defaults to "tan".
-        color_buildings (str, optional): [description]. Defaults to "lightgray".
+        color_spider (str, optional): color of the spiders. Defaults to "red".
+        color_box (str, optional): color of the boxes. Defaults to "tan".
+        color_buildings (str, optional): color of the buildings. Defaults to "lightgray".
 
     Returns:
-        pv.Plotter: [description]
+        pv.Plotter: pyvista plotter for plotting the 3D scene.
     """
     plotter = pv.Plotter()
     spider_army = get_xkcd_spider_army()
