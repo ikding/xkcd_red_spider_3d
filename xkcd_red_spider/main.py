@@ -59,12 +59,15 @@ def get_xkcd_spider_army(
 
     spider_army = []
     for spider_unit_coord, spider_unit_rotation in spider_army_coord.items():
+        spider_unit_coord = list(spider_unit_coord)
+        if len(spider_unit_coord) == 2:
+            spider_unit_coord.append(0)
         spider_army.append(
             utils.process_spider_box_unit_cell(
                 spider=utils.get_unit_cell_spider(),
                 box=utils.get_unit_cell_box(),
                 rotation=spider_unit_rotation,
-                translation=list(spider_unit_coord) + [0],
+                translation=spider_unit_coord,
             )
         )
 
@@ -101,7 +104,11 @@ def main(color_spider="red", color_box="tan", color_buildings="lightgray") -> pv
         pv.Plotter: pyvista plotter for plotting the 3D scene.
     """
     plotter = pv.Plotter()
+    # Use this line for high fidelity reproduction of comic
     spider_army = get_xkcd_spider_army()
+    # use this line for randomly-generated coords
+    # spider_army = get_xkcd_spider_army(spider_army_coord=utils.generate_random_spider_army_coord())
+
     buildings = utils.get_buildings()
     buildings.points *= 1
     buildings.translate([0, 0, -10])
@@ -119,7 +126,7 @@ if __name__ == "__main__":
     p = main()
     p.camera_position = DEFAULT_CAMERA_POSITION
     vtkjs_file_path = os.path.join(DATA_DIR, "red_spiders_cometh")
-    if not os.path.isfile(vtkjs_file_path):
+    if not os.path.isfile(vtkjs_file_path + ".vtkjs"):
         p.export_vtkjs(vtkjs_file_path)
     p.show()
     print(p.camera_position)  # print the final camera position to the stdout

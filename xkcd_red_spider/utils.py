@@ -1,10 +1,9 @@
 """Utility functions for making a spider army unit (red spider on a box)."""
 import os
+from random import choice, randint
 from typing import Dict, List, Tuple, Union
 
-import numpy as np
 import pyvista as pv
-from pyvista import examples
 
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "data")
@@ -103,3 +102,41 @@ def process_spider_box_unit_cell(
         box.translate(translation)
 
     return (spider, box)
+
+
+def generate_random_spider_army_coord(
+    num_spider: int = 15, x_range: int = 10, y_range: int = 3, z_range: int = 1, max_step: int = 3
+) -> Dict[Tuple[int, int], List[Tuple[str, int]]]:
+    """Generate multiple spider coordinates at random.
+
+    :param num_spider: number of spider-box units we want to generate, defaults to 15
+    :type num_spider: int, optional
+    :param x_range: limit (-x_range, x_range) of the spider x-coordinate, defaults to 10
+    :type x_range: int, optional
+    :param y_range: limit (-y_range, y_range) of the spider y-coordinate, defaults to 3
+    :type y_range: int, optional
+    :param z_range: limit (-z_range, z_range) of the spider z-coordinate, defaults to 1
+    :type z_range: int, optional
+    :param max_step: maximum number of randomly generated rotation steps, defaults to 3
+    :type max_step: int, optional
+    :return: Coordinates and rotation steps of the red spider army.
+    :rtype: Dict[Tuple[int, int], List[Tuple[str, int]]]
+    """
+    components = ["x", "y", "z"]
+    angles = [0, 90, 180, 270]
+
+    spider_army_coord = {}
+    for i in range(num_spider):
+        pos = (
+            randint(-x_range, x_range),
+            randint(-y_range, y_range),
+            randint(-z_range, z_range),
+        )
+        n_step = randint(0, max_step)
+        if n_step > 0:
+            steps = [(choice(components), choice(angles)) for s in range(n_step)]
+        else:
+            steps = None
+        spider_army_coord[pos] = steps
+
+    return spider_army_coord
