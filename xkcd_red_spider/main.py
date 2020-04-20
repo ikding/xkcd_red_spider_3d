@@ -7,7 +7,6 @@ import os
 from typing import Dict, List, Tuple
 
 import pyvista as pv
-from pyvista import examples
 
 import xkcd_red_spider.utils as utils
 
@@ -40,28 +39,31 @@ DEFAULT_CAMERA_POSITION = [(-0.7, -26.7, -7.3), (-0.47, 0, -4.6), (0, -0.1, 1)]
 
 
 def get_xkcd_spider_army(
-    spider_army_coord: Dict[Tuple[int, int], List[Tuple[str, int]]] = XKCD_SPIDER_ARMY_COORD,
+    spider_army_coord: Dict[Tuple[int, int], List[Tuple[str, int]]] = None,
     extra_spider: bool = True,
 ) -> List[Tuple[pv.PolyData, pv.PolyData]]:
     """Generate the xkcd spider army through the army coordinates.
 
     Args:
-        spider_army_coord (Dict[Tuple[int, int], List[Tuple[str, int]]], optional): Coordiates and
+        spider_army_coord (Dict[Tuple[int, int], List[Tuple[str, int]]], optional): Coordinates and
             rotation steps of the red spider army. Check XKCD_SPIDER_ARMY_COORD for the example
-            setting. Defaults to XKCD_SPIDER_ARMY_COORD.
+            setting. Defaults to None.
         extra_spider (bool, optional): whether or not to add extra spiders on two boxes, to improve
             fidelity with the original comic. Defaults to True.
 
     Returns:
         List[Tuple[pv.PolyData, pv.PolyData]]: list of (spider, box) ``pv.PolyData`` tuples.
     """
+    if spider_army_coord is None:
+        spider_army_coord = XKCD_SPIDER_ARMY_COORD
+
     spider_army = []
-    for spider_unit_coord, spider_unit_rotatation in spider_army_coord.items():
+    for spider_unit_coord, spider_unit_rotation in spider_army_coord.items():
         spider_army.append(
             utils.process_spider_box_unit_cell(
                 spider=utils.get_unit_cell_spider(),
                 box=utils.get_unit_cell_box(),
-                rotation=spider_unit_rotatation,
+                rotation=spider_unit_rotation,
                 translation=list(spider_unit_coord) + [0],
             )
         )
